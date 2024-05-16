@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FizzBuzz.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,11 +8,6 @@ namespace FizzBuzz.Controllers
     public class FizzBuzzController : ControllerBase
     {
         private readonly IFizzBuzzFunction finalFizzBuzz;
-
-        public FizzBuzzController()
-        {
-            finalFizzBuzz = new FizzBuzzFunction();
-        }
 
         public FizzBuzzController(IFizzBuzzFunction _finalFizzBuzz)
         {

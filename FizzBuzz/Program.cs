@@ -12,7 +12,8 @@ namespace FizzBuzz
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            // builder.Services.AddScoped<IFizzBuzzFunction, FizzBuzzFunction>();
+            builder.Services.AddScoped<IFizzBuzzFunction, FizzBuzzFunction>();
+            builder.Services.AddScoped<IDivisibilityClass, DivisibilityClass>();
 
             var app = builder.Build();
 
