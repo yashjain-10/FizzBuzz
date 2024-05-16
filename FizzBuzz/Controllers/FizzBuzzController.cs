@@ -2,55 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-// using FizzBuzz.Classes;
+using FizzBuzz.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FizzBuzz.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class FizzBuzzController : ControllerBase
+namespace FizzBuzz.Controllers
 {
-    [HttpPost]
-    public IActionResult FizzBuzzResults([FromBody] int[] values)
+    [ApiController]
+    [Route("[controller]")]
+    public class FizzBuzzController : ControllerBase
     {
-        if (CheckInput(values) == 0)
+        private readonly IFizzBuzzFunction finalFizzBuzz;
+
+        public FizzBuzzController()
         {
-            return BadRequest("Invalid Input");
+            finalFizzBuzz = new FizzBuzzFunction();
         }
 
-        var finalResult = "";
-
-        foreach (var value in values)
+        public FizzBuzzController(IFizzBuzzFunction _finalFizzBuzz)
         {
-            var result = CheckDivisibility(value);
-            Console.WriteLine(result); // For debugging purposes, you may want to log the results instead of writing to the console.
-            finalResult += $"{value} : {result} \n";
+            finalFizzBuzz = _finalFizzBuzz;
         }
 
-        return Ok(finalResult);
-    }
-
-    private int CheckInput(int[] values)
-    {
-        if (values == null || values.Length == 0)
-        {    
-            Console.WriteLine("Invalid Input");
-            return 0;
+        [HttpPost]
+        public ActionResult GetFizzBuzz([FromBody] List<string> values)
+        {
+            var result = finalFizzBuzz.GetFizzBuzz(values);
+            return Ok(result);
         }
-        else
-            return 1;
-    }
-
-    private string CheckDivisibility(int value)
-    {
-        if (value % 15 == 0)
-            return $"FizzBuzz";
-        else if (value % 3 == 0)
-            return "Fizz";
-        else if (value % 5 == 0)
-            return "Buzz";
-        else
-            return $"Divided {value} by 3 \nDivided {value} by 5";
     }
 }
